@@ -1,0 +1,13 @@
+(function executeRule(current, previous) {
+
+    var incGr = new GlideRecord('incident');
+    incGr.addQuery('assigned_to', current.sys_id);
+    incGr.setLimit(1);
+    incGr.query();
+
+    if (incGr.next()) {
+        gs.addErrorMessage('This user cannot be deleted because they are assigned to one or more incidents.');
+        current.setAbortAction(true);
+    }
+
+})(current, previous);
